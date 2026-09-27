@@ -1,3 +1,4 @@
+require("dotenv").config();
 const http = require("http");
 const express = require("express");
 const { Server } = require("socket.io");
@@ -12,7 +13,7 @@ const BROADCAST_INTERVAL_MS = 500;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" }
+  cors: { origin: "*" },
 });
 
 app.get("/api/map", (req, res) => {
@@ -61,7 +62,7 @@ io.on("connection", (socket) => {
     if (!validateSensorUpdate(payload)) {
       socket.emit("sensor:error", {
         message: "Invalid sensor event",
-        errors: validateSensorUpdate.errors
+        errors: validateSensorUpdate.errors,
       });
       return;
     }
